@@ -26,7 +26,7 @@ class MdEditor extends React.Component {
   }
 
   static defaultProps = {
-    placeholder: '请输入内容...',
+    placeholder: 'Start Creating...',
     lineNum: true
   }
 
@@ -51,14 +51,14 @@ class MdEditor extends React.Component {
     }
   }
 
-  // 输入框改变
+  // on change
   handleChange = e => {
     const value = e.target.value
     this.saveHistory(value)
     this.props.onChange(value)
   }
 
-  // 快捷插入
+  // Insert
   insert = e => {
     const { $vm } = this
     const type = e.currentTarget ? e.currentTarget.getAttribute('data-type') : e
@@ -67,20 +67,20 @@ class MdEditor extends React.Component {
     this.saveHistory($vm.value)
   }
 
-  // 保存记录
+  // Saveing history
   saveHistory(value) {
     let { f_history, f_history_index } = this.state
     window.clearTimeout(this.currentTimeout)
     this.currentTimeout = setTimeout(() => {
-      // 撤销后修改，删除当前以后记录
+
       if (f_history_index < f_history.length - 1) {
         f_history.splice(f_history_index + 1)
       }
-      // 超出记录最多保存数后，滚动储存
+
       if (f_history.length >= 20) {
         f_history.shift()
       }
-      // 记录当前位置
+
       f_history_index = f_history.length
       f_history.push(value)
       this.setState({
@@ -88,7 +88,7 @@ class MdEditor extends React.Component {
         f_history_index
       })
     }, 500)
-    // 行号
+
     this.handleLineIndex(value)
   }
 
@@ -108,7 +108,7 @@ class MdEditor extends React.Component {
       f_history_index
     })
     const value = f_history[f_history_index]
-    // 将值传递给父组件
+
     this.props.onChange(value)
     this.handleLineIndex(value)
   }
@@ -122,31 +122,31 @@ class MdEditor extends React.Component {
       f_history_index
     })
     const value = f_history[f_history_index]
-    // 将值传递给父组件
+
     this.props.onChange(value)
     this.handleLineIndex(value)
   }
 
-  // 预览
+
   preview = () => {
     this.setState({
       preview: !this.state.preview
     })
   }
 
-  // 全屏
+
   expand = () => {
     this.setState({
       expand: !this.state.expand
     })
   }
 
-  // 保存
+
   save = () => {
     this.props.onSave()
   }
 
-  // 左侧空白区点击后，textarea聚焦
+
   focusText = () => {
     const { $vm } = this
     $vm.focus()
@@ -189,34 +189,37 @@ class MdEditor extends React.Component {
       <div className={fullscreen} style={{ height: this.props.height }}>
         <div className="for-controlbar">
           <ul>
-            <li onClick={this.undo} title="上一步 (ctrl+z)">
+            <li onClick={this.undo} title="Undo (ctrl+z)">
               <i className="foricon for-undo" />
             </li>
-            <li onClick={this.redo} title="下一步 (ctrl+y)">
+            <li onClick={this.redo} title="Redo (ctrl+y)">
               <i className="foricon for-redo" />
             </li>
-            <li data-type="h1" onClick={this.insert} title="一级标题">
+            <li data-type="h1" onClick={this.insert} title="Heading 1">
               H1
             </li>
-            <li data-type="h2" onClick={this.insert} title="二级标题">
+            <li data-type="h2" onClick={this.insert} title="Heading 2">
               H2
             </li>
-            <li data-type="h3" onClick={this.insert} title="三级标题">
+            <li data-type="h3" onClick={this.insert} title="Heading 3">
               H3
             </li>
-            <li data-type="h4" onClick={this.insert} title="四级标题">
+            <li data-type="h4" onClick={this.insert} title="Heading 4">
               H4
             </li>
-            <li data-type="image" onClick={this.insert} title="图片">
+            <li data-type="bold" onClick={this.insert} title="Bold">
+              <strong>B</strong>
+            </li>
+            <li data-type="image" onClick={this.insert} title="Insert Image">
               <i className="foricon for-image" />
             </li>
-            <li data-type="link" onClick={this.insert} title="超链接">
+            <li data-type="link" onClick={this.insert} title="Insert Link">
               <i className="foricon for-link" />
             </li>
-            <li data-type="code" onClick={this.insert} title="代码块">
+            <li data-type="code" onClick={this.insert} title="Insert code">
               <i className="foricon for-code" />
             </li>
-            <li onClick={this.save} title="保存 (ctrl+s)">
+            <li onClick={this.save} title="Save (ctrl+s)">
               <i className="foricon for-save" />
             </li>
           </ul>
