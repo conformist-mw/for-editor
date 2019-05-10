@@ -60,6 +60,9 @@ const toolbar = {
   },
   bold($vm){
     insert($vm, '**','','**')
+  },
+  italic($vm){
+    insert($vm, '*','','*')
   }
 }
 

@@ -17,8 +17,8 @@ class MdEditor extends React.Component {
     }
 
     this.state = {
-      preview: false,
-      expand: false,
+      preview: true,
+      expand: true,
       f_history: [],
       f_history_index: 0,
       line_index: 1
@@ -26,7 +26,7 @@ class MdEditor extends React.Component {
   }
 
   static defaultProps = {
-    placeholder: 'Start Creating...',
+    placeholder: '',
     lineNum: true
   }
 
@@ -195,6 +195,12 @@ class MdEditor extends React.Component {
             <li onClick={this.redo} title="Redo (ctrl+y)">
               <i className="foricon for-redo" />
             </li>
+            <li data-type="bold" onClick={this.insert} title="Bold">
+              <strong>B</strong>
+            </li>
+            <li data-type="italic" onClick={this.insert} title="Italic">
+              <i>I</i>
+            </li>
             <li data-type="h1" onClick={this.insert} title="Heading 1">
               H1
             </li>
@@ -206,9 +212,6 @@ class MdEditor extends React.Component {
             </li>
             <li data-type="h4" onClick={this.insert} title="Heading 4">
               H4
-            </li>
-            <li data-type="bold" onClick={this.insert} title="Bold">
-              <strong>B</strong>
             </li>
             <li data-type="image" onClick={this.insert} title="Insert Image">
               <i className="foricon for-image" />
