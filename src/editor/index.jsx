@@ -19,6 +19,7 @@ class MdEditor extends React.Component {
     this.state = {
       preview: true,
       expand: true,
+      edit: !this.props.disabled,
       f_history: [],
       f_history_index: 0,
       line_index: 1
@@ -27,7 +28,9 @@ class MdEditor extends React.Component {
 
   static defaultProps = {
     placeholder: '',
-    lineNum: true
+    lineNum: true,
+    fullscreenMarginTop: '0px',
+    disabled: false,
   }
 
   componentDidMount() {
@@ -134,6 +137,11 @@ class MdEditor extends React.Component {
     })
   }
 
+  edit = () => {
+    this.setState({
+      edit: !this.state.edit
+    })
+  }
 
   expand = () => {
     this.setState({
@@ -153,18 +161,29 @@ class MdEditor extends React.Component {
   }
 
   render() {
-    const { preview, expand, line_index } = this.state
+    const { preview, expand, line_index, edit } = this.state
     const { value } = this.props
     const previewClass = classNames({
       'for-panel': true,
       'for-preview-hidden': !preview
     })
     const editorClass = classNames({
-      'for-panel': true
+      'for-panel': true,
+      'flex-0': !edit
     })
     const previewActive = classNames({
       'for-active': preview
     })
+    const editActive = classNames({
+      'for-active': edit,
+    })
+    const flexEnd = classNames({
+      'flex-end': !edit
+    })
+    const firstSectionActive = classNames({
+      'hidden': !edit
+    })
+
     const fullscreen = classNames({
       'for-container': true,
       'for-fullscreen': expand
@@ -186,9 +205,9 @@ class MdEditor extends React.Component {
     }
 
     return (
-      <div className={fullscreen} style={{ height: this.props.height }}>
-        <div className="for-controlbar">
-          <ul>
+      <div className={fullscreen} style={{ height: this.props.height, marginTop: this.props.fullscreenMarginTop }}>
+        <div className={"for-controlbar "+ flexEnd}>
+          <ul className={firstSectionActive}>
             <li onClick={this.undo} title="Undo (ctrl+z)">
               <i className="foricon for-undo" />
             </li>
@@ -227,13 +246,14 @@ class MdEditor extends React.Component {
             </li>
           </ul>
           <ul>
-            <li className={expandActive} onClick={this.expand}>
+            {/* <li className={expandActive} onClick={this.expand}>
               {expandActive ? (
                 <i className="foricon for-contract" />
               ) : (
                 <i className="foricon for-expand" />
               )}
-            </li>
+            </li> */}
+            <li onClick={this.edit} className={editActive}><strong>Write</strong></li>
             <li className={previewActive} onClick={this.preview}>
               {previewActive ? (
                 <i className="foricon for-eye-off" />
@@ -255,6 +275,7 @@ class MdEditor extends React.Component {
                     value={value}
                     onChange={this.handleChange}
                     placeholder={this.props.placeholder}
+                    disabled = {!this.state.edit}
                   />
                 </div>
               </div>

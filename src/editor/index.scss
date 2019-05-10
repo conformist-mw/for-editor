@@ -14,7 +14,7 @@
     height: 100%;
   }
 
-  ul, ol, li,  {
+  ul, ol, li  {
     margin: 0;
     padding: 0;
   }
@@ -73,6 +73,7 @@
       flex: 1;
       width: 50%;
       overflow: auto;
+      transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
 
       .for-preview {
         padding: 10px 14px;
@@ -298,4 +299,16 @@
     max-width: 100%;
     margin-bottom: .6em;
   }
+}
+
+.hidden{
+  display: none !important;
+}
+
+.flex-end{
+  justify-content: flex-end !important;
+}
+
+.flex-0{
+  flex: 0 !important;
 }
