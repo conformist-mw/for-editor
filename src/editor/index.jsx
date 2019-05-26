@@ -18,7 +18,7 @@ class MdEditor extends React.Component {
 
     this.state = {
       preview: true,
-      expand: true,
+      expand: (this.props.expand === true) ? true : false,
       edit: !this.props.disabled,
       f_history: [],
       f_history_index: 0,
